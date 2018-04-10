@@ -10,6 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/api/users', require('./routes/users'));
 app.use('/api/blogs', require('./routes/blogs'));
+app.use('/api/comments', require('./routes/comments'));
+app.use('/api/likes', require('./routes/likes'));
 
 app.get('/', (req,res) => {
     res.status(200).send();

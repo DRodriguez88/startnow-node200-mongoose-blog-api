@@ -7,7 +7,9 @@ const BlogSchema = new Schema({
     published: { type: Date, required: true },
     featured: { type: Boolean, required: true },
     authorId: { type: Schema.Types.ObjectId, required: true },
-    author: { type: Schema.Types.ObjectId, ref: 'User' }
+    author: { type: Schema.Types.ObjectId, ref: 'User' },
+    comments: [{ type:Schema.Types.ObjectId, ref: 'Comment' }],
+    likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }]
 });
 
 module.exports = mongoose.model('Blog', BlogSchema);
