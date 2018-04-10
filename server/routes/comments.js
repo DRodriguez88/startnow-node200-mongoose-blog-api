@@ -4,6 +4,7 @@ const Blog = require('../models/Blog');
 const User = require('../models/User');
 const Comment = require('../models/Comment');
 let dbUser = null;
+let dbComment = null;
 
 
 router.get('/', (req,res) => {
@@ -32,6 +33,7 @@ router.post('/', (req,res) => {
             return comment.save();
         })
         .then(comment => {
+            dbComment = comment;
             dbUser.comments.push(comment);
             dbUser.save().then(() => res.status(201).json(comment));
         })
@@ -39,7 +41,7 @@ router.post('/', (req,res) => {
             Blog
                 .findById(req.body.blogId)
                 .then(blog => {
-                    blog.comments.push(comment);
+                    blog.comments.push(dbComment);
                     blog.save()
                 });
         });
