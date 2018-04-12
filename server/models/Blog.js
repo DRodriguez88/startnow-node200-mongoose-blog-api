@@ -18,7 +18,8 @@ BlogSchema.post('remove', function(doc) {
     Comment
         .find({ blogId: doc._id })
         .then(comments => {
-            //Go through all comments inside of asingle blog
+            // Find all comment related to the blog, 
+            // remove them from their authors, and delete from comments collection
             comments.forEach(comment => {
                 User.update(
                     { _id: comment.authorId },

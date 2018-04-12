@@ -10,4 +10,16 @@ const CommentSchema = new Schema ({
         likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }]
 });
 
+CommentSchema.post('remove', function(doc) {
+    const Comment = mongoose.model('Comment')
+    const User = mongoose.model('User')
+    
+    User
+        .update(
+            { _id: doc.authorId },
+            { $pull: { comments: doc._id } }
+        ).then(user => user)
+
+});
+
 module.exports = mongoose.model('Comment', CommentSchema);

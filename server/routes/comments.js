@@ -55,4 +55,13 @@ router.put('/:id', (req,res) => {
         });
 });
 
+router.delete('/:id', (req, res) => {
+    Comment
+        .findByIdAndRemove(req.params.id)
+        .then(comment => {
+            comment.remove()
+            res.status(200).json(comment)
+        });
+});
+
 module.exports = router;
