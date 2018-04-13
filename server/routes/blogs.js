@@ -12,20 +12,21 @@ router.get('/', (req,res) => {
         });
 });
 
-router.get('/:id', (req,res) => {
+router.get('/featured', (req,res) => {
     Blog
         .find()
+        .where({featured:true})
         .then(blogs => {
             res.status(200).json(blogs);
         });
 });
 
-router.get('/featured', (req,res) => {
+router.get('/:id', (req,res) => {
     Blog
-        .find()
-        .where({'featured': true})
+        .findById(req.params.id)
         .then(blogs => {
-            res.status(200).json(blogs);
+            if(blogs){res.status(200).json(blogs)}
+            else{res.status(404).json(blogs)}
         });
 });
 
@@ -48,7 +49,7 @@ router.put('/:id', (req,res) => {
     Blog
         .findByIdAndUpdate(req.params.id,req.body)
         .then(blog => {
-            res.status(200).json(blog)
+            res.status(204).json(blog)
         });
 });
 
@@ -57,7 +58,7 @@ router.delete('/:id', (req,res) => {
         .findByIdAndRemove(req.params.id)
         .then(blog => {
             blog.remove()
-            res.status(200).json(blog)
+            res.json(blog)
         });
 });
 

@@ -6,14 +6,13 @@ const BlogSchema = new Schema({
     article: { type: String, required: true },
     published: { type: Date, required: true },
     featured: { type: Boolean, required: true },
-    authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    author: { type: Schema.Types.ObjectId, ref: 'User'},
     comments: [{ type:Schema.Types.ObjectId, ref: 'Comment' }],
     likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }]
 });
 
 BlogSchema.post('remove', function(doc) {
     const Comment = mongoose.model('Comment')
-    const User = mongoose.model('User')
 
     Comment
         .find({ blogId: doc._id })
@@ -22,7 +21,7 @@ BlogSchema.post('remove', function(doc) {
             // remove them from their authors, and delete from comments collection
             comments.forEach(comment => {
                 User.update(
-                    { _id: comment.authorId },
+                    { _id: comment.author },
                     { $pull: { comments: comment._id, blogs:doc._id } }
                 ).then(user => comment.remove());
             });
