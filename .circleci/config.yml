@@ -18,7 +18,8 @@ jobs:
     working_directory: /tmp/my-project
     steps:
       - checkout
-      - run: npm run start
+      - run: npm install
+      - run: npm start
 workflows:
   version: 2
   build-deploy:
